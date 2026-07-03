@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  dingtalk-bot:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: dingtalk-bot
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: dingtalk-bot-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    profiles:
+      - redis       # 仅在需要 Redis 时启用：docker compose --profile redis up
